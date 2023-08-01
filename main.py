@@ -42,18 +42,19 @@ with open("result.csv", "r", encoding="UTF-8") as csv:
         ans = line.replace('"', '').replace("\n", '').split(",")
         ans.pop(0)
         ans.pop(15)
-        ans[-1] = ans[-1][1:]
-        
-        score = 0
-        for i in range(7, len(ans)):
-            try:
-                if ans[i] == CORRECT_ANS[i - 7]:
-                    score += 1
-            except IndexError:
-                break
-        
-        ans.append(score)
-        people.append(ans)
+        if ans[4] == "예":
+            ans[-1] = ans[-1][1:]
+            
+            score = 0
+            for i in range(7, len(ans)):
+                try:
+                    if ans[i] == CORRECT_ANS[i - 7]:
+                        score += 1
+                except IndexError:
+                    break
+            
+            ans.append(score)
+            people.append(ans)
     csv.close()
 
 # 전체
