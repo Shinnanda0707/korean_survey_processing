@@ -1,6 +1,6 @@
 # korean_survey_processing
 
-응답자들의 개인정보 보호 때문에 Github에 raw data를 배포하지 않음.
+응답자들의 개인정보 보호를 위해 Github에 raw data를 배포하지 않음.
 
 ## 코드 실행 방법
 
