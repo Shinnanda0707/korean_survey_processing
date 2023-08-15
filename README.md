@@ -4,22 +4,13 @@
 
 ## 프로그램 실행 방법
 
-### I. 실행 파일(.exe 파일) 실행
-1. ```run.exe``` 다운로드
-
-2. ```run.exe```를 raw data ```result.csv```가 있는 폴더로 이동
-
-3. ```run.exe``` 실행
-
-### II. Python 코드 실행
-
 1. ```main.py``` 다운로드
 
 2. ```main.py```를 raw data ```result.csv```가 있는 폴더로 이동
 
-3. ```main.py``` 실행
+3. Anaconda 또는 Python으로 ```main.py``` 실행
 
-## 필요 사항 (실행 파일로 프로그램을 실행할 경우 불필요함)
+## 필요 사항
 
 1. Windows 또는 Mac 운영체제
 
