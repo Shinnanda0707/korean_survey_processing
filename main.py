@@ -1,12 +1,15 @@
 import platform
 
 import matplotlib.pyplot as plt
+
+# Font
 if platform.system() == "Windows":
     plt.rc("font", family="NanumGothic")
 else:
     plt.rc("font", family="NanumGothicOTF")
 
 
+# List l[idx]가 val인 사람 검색
 def get(l, idx, val) -> list:
     lst = list()
     for i in l:
@@ -15,6 +18,7 @@ def get(l, idx, val) -> list:
     return lst
 
 
+# List l[idx]에 val이 포함된 사람 검색
 def inn(l, idx, val) -> list:
     lst = list()
     for i in l:
@@ -23,6 +27,7 @@ def inn(l, idx, val) -> list:
     return lst
 
 
+# Draw histogram
 def make_histogram(title, dataset1, dataset2, label1, label2, bin1, bin2, xlabel="정답 개수(개)", ylabel="빈도(사람 수 / 전체 사람 수)"):
     plt.title(title)
     plt.hist(dataset1, color="r", alpha=0.5, bins=bin1, label=label1, density=True)
