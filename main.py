@@ -23,18 +23,19 @@ def inn(l, idx, val) -> list:
     return lst
 
 
-def make_histogram(title, dataset1, dataset2, label1, label2, xlabel="정답 개수(개)", ylabel="빈도(사람 수 / 전체 사람 수)"):
+def make_histogram(title, dataset1, dataset2, label1, label2, bin1, bin2, xlabel="정답 개수(개)", ylabel="빈도(사람 수 / 전체 사람 수)"):
     plt.title(title)
-    plt.hist(dataset1, color="r", alpha=0.5, bins=9, label=label1, density=True)
+    plt.hist(dataset1, color="r", alpha=0.5, bins=bin1, label=label1, density=True)
     if dataset2:
-        plt.hist(dataset2, color="b", alpha=0.5, bins=9, label=label2, density=True)
+        plt.hist(dataset2, color="b", alpha=0.5, bins=bin2, label=label2, density=True)
     plt.xlabel(xlabel, loc="right")
     plt.ylabel(ylabel, loc="top")
     plt.legend()
+    plt.grid()
     plt.show()
 
 
-CORRECT_ANS = ["옳음", "틀림", "옳음", "옳음", "옳음", "그 분식집은 치즈떡볶이가 맛있다.", "그는 노래를 참 못해서 들어줄 수가 없다.", "그런 나쁜 행동은 따라 하지 마.", "한글 띄어쓰기", "한글 붙여쓰기"]
+CORRECT_ANS = ["옳음", "틀림", "옳음", "옳음", "옳음", "그 분식집은 치즈떡볶이가 맛있다.", "그는 노래를 참 못해서 들어줄 수가 없다.", "그런 나쁜 행동은 따라 하지 마.", ["한글 띄어쓰기", "한글 붙여쓰기"]]
 people = list()
 
 with open("result.csv", "r", encoding="UTF-8") as csv:
@@ -46,12 +47,14 @@ with open("result.csv", "r", encoding="UTF-8") as csv:
             ans[-1] = ans[-1][1:]
             
             score = 0
-            for i in range(7, len(ans)):
-                try:
-                    if ans[i] == CORRECT_ANS[i - 7]:
-                        score += 1
-                except IndexError:
-                    break
+            print(len(CORRECT_ANS) - 1)
+            for i in range(7, 6 + len(CORRECT_ANS)):
+                if ans[i] == CORRECT_ANS[i - 7]:
+                    score += 1
+            if CORRECT_ANS[-1] == ans[(len(CORRECT_ANS) + 6):]:
+                score += 1
+            
+            print(score > 8)
             
             ans.append(score)
             people.append(ans)
@@ -66,7 +69,7 @@ for i in people:
     score += i[-1]
 
 print(f"전체 평균: {round(score / len(people), 1)}/9")
-make_histogram("정답 개수 히스토그램", hist, False, "전체", '')
+make_histogram("정답 개수 히스토그램", hist, False, "전체", '', 8, 8)
 
 # 남녀
 ml = get(people, 3, "남")
@@ -89,7 +92,7 @@ for i in fl:
 
 print(f"남자 평균: {round(score['male'] / len(ml), 1)}/9")
 print(f"여자 평균: {round(score['female'] / len(fl), 1)}/9")
-make_histogram("남녀 별 정답 개수 히스토그램", hist["male"], hist["female"], "남", "여")
+make_histogram("남녀 별 정답 개수 히스토그램", hist["male"], hist["female"], "남", "여", 7, 8)
 
 # 고등 / 중등
 hil = inn(people, 1, "고등학교")
@@ -112,7 +115,7 @@ for i in mil:
 
 print(f"고등학생 평균: {round(score['high'] / len(hil), 1)}/9")
 print(f"중학생 평균: {round(score['middle'] / len(mil), 1)}/9")
-make_histogram("학교급 별 정답 개수 히스토그램", hist["high"], hist["middle"], "고등학교", "중학교")
+make_histogram("학교급 별 정답 개수 히스토그램", hist["high"], hist["middle"], "고등학교", "중학교", 7, 8)
 
 # 교육 여부
 yl = get(people, 6, "예")
@@ -135,4 +138,4 @@ for i in nl:
 
 print(f"교육 경험 있는 사람 평균: {round(score['y'] / len(yl), 1)}/9")
 print(f"교육 경험 없는 사람 평균: {round(score['n'] / len(nl), 1)}/9")
-make_histogram("교육 여부 별 정답 개수 히스토그램", hist["y"], hist["n"], "교육 경험 있음", "교육 경험 없음")
+make_histogram("교육 여부 별 정답 개수 히스토그램", hist["y"], hist["n"], "교육 경험 있음", "교육 경험 없음", 8, 7)
