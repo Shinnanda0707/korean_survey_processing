@@ -2,14 +2,14 @@ import platform
 
 import matplotlib.pyplot as plt
 
-# Font
+# 한글 폰트 설정
 if platform.system() == "Windows":
     plt.rc("font", family="NanumGothic")
 else:
     plt.rc("font", family="NanumGothicOTF")
 
 
-# List l[idx]가 val인 사람 검색
+# "l[idx]"가 "val"인 사람 검색
 def get(l, idx, val) -> list:
     lst = list()
     for i in l:
@@ -18,7 +18,7 @@ def get(l, idx, val) -> list:
     return lst
 
 
-# List l[idx]에 val이 포함된 사람 검색
+# "l[idx]"가 "val"을 포함하는 사람 검색
 def inn(l, idx, val) -> list:
     lst = list()
     for i in l:
@@ -43,18 +43,24 @@ def make_histogram(title, dataset1, dataset2, label1, label2, bin1, bin2, xlabel
 CORRECT_ANS = ["옳음", "틀림", "옳음", "옳음", "옳음", "그 분식집은 치즈떡볶이가 맛있다.", "그는 노래를 참 못해서 들어줄 수가 없다.", "그런 나쁜 행동은 따라 하지 마.", ["한글 띄어쓰기", "한글 붙여쓰기"]]
 people = list()
 
+# result.csv 읽고 list "people"에 결과 넣기
 with open("result.csv", "r", encoding="UTF-8") as csv:
     for line in csv.readlines():
         ans = line.replace('"', '').replace("\n", '').split(",")
         ans.pop(0)
         ans.pop(15)
+
+        # 개인정보 동의 여부 확인
         if ans[4] == "예":
             ans[-1] = ans[-1][1:]
-            
             score = 0
+
+            # 택1 문제
             for i in range(7, 6 + len(CORRECT_ANS)):
                 if ans[i] == CORRECT_ANS[i - 7]:
                     score += 1
+            
+            # 복수정답 문제
             if CORRECT_ANS[-1] == ans[(len(CORRECT_ANS) + 6):]:
                 score += 1
             
@@ -62,7 +68,7 @@ with open("result.csv", "r", encoding="UTF-8") as csv:
             people.append(ans)
     csv.close()
 
-# 전체
+# 전체 평균
 hist = list()
 score = 0
 
@@ -73,7 +79,7 @@ for i in people:
 print(f"전체 평균: {round(score / len(people), 1)}/9")
 make_histogram("정답 개수 히스토그램", hist, False, "전체", '', 8, 8)
 
-# 남녀
+# 남녀 평균
 ml = get(people, 3, "남")
 fl = get(people, 3, "여")
 hist = {
@@ -96,7 +102,7 @@ print(f"남자 평균: {round(score['male'] / len(ml), 1)}/9")
 print(f"여자 평균: {round(score['female'] / len(fl), 1)}/9")
 make_histogram("남녀 별 정답 개수 히스토그램", hist["male"], hist["female"], "남", "여", 7, 8)
 
-# 고등 / 중등
+# 고등/중등 평균
 hil = inn(people, 1, "고등학교")
 mil = inn(people, 1, "중학교")
 hist = {
@@ -119,7 +125,7 @@ print(f"고등학생 평균: {round(score['high'] / len(hil), 1)}/9")
 print(f"중학생 평균: {round(score['middle'] / len(mil), 1)}/9")
 make_histogram("학교급 별 정답 개수 히스토그램", hist["high"], hist["middle"], "고등학교", "중학교", 7, 8)
 
-# 교육 여부
+# 교육 여부 평균
 yl = get(people, 6, "예")
 nl = get(people, 6, "아니오")
 hist = {
