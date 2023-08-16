@@ -47,14 +47,11 @@ with open("result.csv", "r", encoding="UTF-8") as csv:
             ans[-1] = ans[-1][1:]
             
             score = 0
-            print(len(CORRECT_ANS) - 1)
             for i in range(7, 6 + len(CORRECT_ANS)):
                 if ans[i] == CORRECT_ANS[i - 7]:
                     score += 1
             if CORRECT_ANS[-1] == ans[(len(CORRECT_ANS) + 6):]:
                 score += 1
-            
-            print(score > 8)
             
             ans.append(score)
             people.append(ans)
